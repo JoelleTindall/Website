@@ -256,7 +256,7 @@ const resetForm = () => {
           </div>
         </div>
 
-        <div v-if="!loading" class="field button pag">
+        <div class="field button pag">
           <button @click="loadPrevious" :disabled="!hasPreviousEntries">
             <
           </button>

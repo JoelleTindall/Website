@@ -1,7 +1,11 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-
+import moment from 'moment'
+import Bouncecat from '../assets/images/bouncecat.gif'
+import catReaction from '../assets/images/reactions/cat.png'
+import eggReaction from '../assets/images/reactions/egg.png'
+import madReaction from '../assets/images/reactions/mad.png'
 const submitted = ref(false)
 const txtName = ref('')
 const txtMessage = ref('')
@@ -9,7 +13,8 @@ const successVisible = ref(false)
 const successShrink = ref(false)
 const chars = ref(0)
 const max = ref(false)
-
+const reactions = ref([catReaction, eggReaction, madReaction])
+const selectedReaction = ref(0)
 //example entries and array, would be stored and retrieved in DB in real version
 // const entries = ref([
 //   {
@@ -20,65 +25,90 @@ const max = ref(false)
 //   { name: 'pair of pants', message: 'shit sucks' },
 // ])
 
-const entries = ref([]) // Store the currently displayed entries
-const currentPage = ref(1) // Page number for pagination
-const entriesPerPage = 3 // Max number of entries to display per page
-const hasMoreEntries = ref(true) // Flag to indicate whether there are more entries to load
-const hasPreviousEntries = ref(false) // Flag to indicate if previous entries exist
+const loading = ref(true)
+const failed = ref(false)
+const entries = ref([])
+const currentPage = ref(1)
+const entriesPerPage = 3
+const hasMoreEntries = ref(true)
+const hasPreviousEntries = ref(false)
 
-// Function to fetch entries based on the current page
+//date for new post uploads
+let date = ref('')
+
+setInterval(() => {
+  date.value = moment(new Date()).format('YYYY-M-D')
+}, 1000)
+
+// fetches entries based on the currentpage.value
 async function getEntries() {
+  loading.value = true
   try {
     const { data, error, count } = await supabase
       .from('TGuestbook')
       .select('*', { count: 'exact' })
       .range(
-        (currentPage.value - 1) * entriesPerPage, // Calculate the range start
-        currentPage.value * entriesPerPage - 1, // Calculate the range end
+        // calculates range
+        (currentPage.value - 1) * entriesPerPage,
+        currentPage.value * entriesPerPage - 1,
       )
+      .order('id', { ascending: false })
 
     if (error) throw error
 
-    // If it's the first page, we just load the entries; otherwise, we replace the current entries
+    // if first page, just load entries; else replace the current entries
     if (currentPage.value === 1) {
       entries.value = data
     } else {
-      entries.value = data // Replace old entries with new ones for this page
+      entries.value = data
     }
 
-    // Update flags based on pagination
+    // updates the flags based on pagination
     hasMoreEntries.value = currentPage.value * entriesPerPage < count
     hasPreviousEntries.value = currentPage.value > 1
+    loading.value = false
   } catch (err) {
+    failed.value = true
     console.error('Error fetching entries:', err)
   }
 }
 
-// Function to load the next set of entries
+// loads the next set of entries
 function loadNext() {
   if (hasMoreEntries.value) {
-    currentPage.value += 1 // Increment the page number
-    getEntries() // Fetch the next set of entries
+    currentPage.value += 1
+    getEntries()
   }
 }
 
-// Function to load the previous set of entries
+// loads the previous set of entries
 function loadPrevious() {
   if (hasPreviousEntries.value) {
-    currentPage.value -= 1 // Decrement the page number
-    getEntries() // Fetch the previous set of entries
+    currentPage.value -= 1
+    getEntries()
   }
 }
 
+// load entries on page load
 onMounted(() => {
-  getEntries() // Load initial entries on page load
+  getEntries()
 })
 
-// Inserting a new entry into the database
+// Inserts a new entry into the database
 async function insertEntry() {
-  await supabase
-    .from('TGuestbook')
-    .insert({ name: txtName.value, message: txtMessage.value })
+  try {
+    const { error } = await supabase.from('TGuestbook').insert({
+      created_at: date.value,
+      name: txtName.value,
+      message: txtMessage.value,
+      reaction: selectedReaction.value,
+    })
+
+    if (error) throw error
+  } catch (err) {
+    failed.value = true
+    console.error('Error inserting entries:', err)
+  }
 }
 
 // Watch for changes in txtMessage to update character count
@@ -87,24 +117,36 @@ watch(txtMessage, newValue => {
   max.value = chars.value >= 150 // Check if max character count is reached
 })
 
-// Validate the entry (checking if fields are not empty)
+// gets selected reaction
+function selectReaction(index) {
+  selectedReaction.value = index
+}
+//returns true to show which img has been clicked, all else false
+function reactionSelected(index) {
+  return selectedReaction.value === index
+}
+
+// validate the fields not empty)
 const checkEntry = () => {
   return txtName.value && txtMessage.value
 }
 
-// Function to add a new entry
+// adds a new entry then clears all fields
 const addEntry = async () => {
-  window.scrollTo(0, 0) // Scroll to the top
-  await insertEntry() // Insert the new entry into the database
-  txtName.value = '' // Clear the name field
-  txtMessage.value = '' // Clear the message field
-  successVisible.value = true // Show success message
-  getEntries() // Reload entries
+  window.scrollTo(0, 0) // scroll to the top
+  insertEntry()
+  txtName.value = ''
+  txtMessage.value = ''
+  reactionSelected.value = 0
+  successVisible.value = true // show success messages
+
+  getEntries() // reload entries
+  currentPage.value = 1
   setTimeout(() => {
-    successShrink.value = true // Hide success message after 2 seconds
-  }, 2000)
+    successShrink.value = true // Hide success message after 1.5 seconds
+  }, 1500)
 }
-// Handle form submission
+//  form submission
 const handleSubmit = () => {
   submitted.value = true
   //validates entry and returns true if good, then adds with addEntry
@@ -116,6 +158,7 @@ const handleSubmit = () => {
 const resetForm = () => {
   txtName.value = ''
   txtMessage.value = ''
+  selectedReaction.value = 0
   submitted.value = false
 }
 </script>
@@ -132,7 +175,7 @@ const resetForm = () => {
         class="success-message"
         :class="{ shrink: successShrink }"
       >
-        <p><b>Message posted!</b></p>
+        <p class="successtext"><b>Message posted!</b></p>
       </div>
 
       <form
@@ -146,12 +189,12 @@ const resetForm = () => {
           class="maincontent guestform"
           :class="{ shrink: successShrink }"
         >
-          <h3>What people have said to me:</h3>
+          <h3>What you will say to me:</h3>
           <div class="field name">
             <label>Name: </label>
             <input
               v-model="txtName"
-              maxlength="25"
+              maxlength="15"
               class="formfield"
               type="text"
               placeholder="Anonymous"
@@ -159,6 +202,16 @@ const resetForm = () => {
             />
           </div>
 
+          <div class="field reactionholder">
+            <label>How do you feel?</label>
+            <img
+              v-for="(reaction, index) in reactions"
+              :key="index"
+              :src="reaction"
+              @click="selectReaction(index)"
+              :class="{ selected: reactionSelected(index) }"
+            />
+          </div>
           <div class="field message">
             <label>Message: </label>
             <textarea
@@ -187,13 +240,23 @@ const resetForm = () => {
         :class="{ shrink: successShrink }"
       >
         <h3>What people have said to me:</h3>
-        <div v-for="entry in entries" :key="entry.id" class="entry">
+
+        <div class="loading" v-if="loading">
+          <img class="loadingcat rotating" :src="Bouncecat" />
+          <p v-if="!failed">Hold on...</p>
+          <p v-if="failed">Something went wrong??</p>
+        </div>
+
+        <div v-else v-for="entry in entries" :key="entry.id" class="entry">
+          <div class="reaction"><img :src="reactions[entry.reaction]" /></div>
           <div class="messagewrapper holder">
+            <div class="date">{{ entry.created_at }}</div>
             <div class="displayname">{{ entry.name }} says..</div>
             <div class="msg">{{ entry.message }}</div>
           </div>
         </div>
-        <div class="field button pag">
+
+        <div v-if="!loading" class="field button pag">
           <button @click="loadPrevious" :disabled="!hasPreviousEntries">
             <
           </button>
@@ -237,6 +300,69 @@ const resetForm = () => {
     margin: auto;
     width: 100%;
   }
+}
+
+.successtext {
+  text-wrap: nowrap;
+}
+.reaction {
+  width: fit-content;
+  grid-column: 1;
+  margin-left: auto;
+}
+.reaction img {
+  width: 50px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.336);
+  margin-right: 2px;
+}
+.reactionholder {
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  background-color: #ffffff3b;
+  border-radius: 30px;
+}
+
+.reactionholder img {
+  margin: 0 auto;
+  height: 50px;
+  background-color: #e4c1f933;
+  padding: 0 20px;
+  border: 2px solid rgba(0, 0, 0, 0.274);
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.082);
+  cursor: pointer;
+  user-select: none;
+  grid-row: 2;
+}
+
+.reactionholder img:hover {
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.182);
+  background-color: #e4c1f971;
+  border-color: rgba(0, 0, 0, 0.574);
+}
+
+.reactionholder img.selected {
+  box-shadow: 5px 5px rgba(0, 0, 0, 0.182);
+  background-color: #e4c1f9;
+  border-color: rgba(0, 0, 0, 0.574);
+}
+
+.loading {
+  text-align: center;
+}
+.loadingcat {
+  height: 100px;
+  width: 100px;
+}
+
+.date {
+  float: right;
+  font-style: italic;
+  opacity: 75%;
+  font-size: 14px;
+  padding-top: 5px;
 }
 
 #GuestForm {
@@ -381,14 +507,14 @@ textarea {
 
 .entry {
   display: inline-grid;
-
+  display: grid;
+  grid-template-columns: 20% 80%;
   min-width: 100%;
   border-radius: 10px;
 }
 
 div.messagewrapper.holder {
-  width: 80%;
-  margin: 0 auto;
+  width: 90%;
 }
 
 .displayname {
@@ -448,6 +574,8 @@ div.text {
 
 .field.button.pag button {
   width: 60%;
+  font-size: 2em;
+  text-align: center;
 }
 .field.button.pag {
   align-content: end;

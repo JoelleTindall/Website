@@ -41,9 +41,6 @@ const routes = [
     name: 'Admin',
     component: Admin,
     meta: { requiresAuth: true },
-    // beforeEnter(to) {
-
-    // },
   },
 ]
 

@@ -3,7 +3,7 @@ import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import Bouncecat from './assets/images/bouncecat.gif'
 
-const pageOpen = ref([true, false, false, false])
+const pageOpen = ref([false, false, false, false])
 const page = ref(0)
 const comic = ref(false)
 const menu = ref(false)

@@ -1,8 +1,11 @@
 import { createRouter, createWebHistory, useRoute } from 'vue-router'
-import About from './components/About.vue'
-import Projectcarousel from './components/Projectcarousel.vue'
-import Contactform from './components/Contactform.vue'
-import Guestbook from './components/Guestbook.vue'
+import { useAuthStore } from './auth'
+import About from './views/About.vue'
+import Projectcarousel from './views/Projects.vue'
+import Contactform from './views/Contactform.vue'
+import Guestbook from './views/Guestbook.vue'
+import SignIn from './views/SignIn.vue'
+import Admin from './views/Admin.vue'
 const routes = [
   {
     path: '/',
@@ -28,7 +31,32 @@ const routes = [
     name: 'Guestbook',
     component: Guestbook,
   },
+  {
+    path: '/signin',
+    name: 'SignIn',
+    component: SignIn,
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
+    meta: { requiresAuth: true },
+    // beforeEnter(to) {
+
+    // },
+  },
 ]
 
 const router = createRouter({ history: createWebHistory(), routes })
+
+router.beforeEach((to, from, next) => {
+  const auth = useAuthStore() // Using the Composition API to access the auth state
+
+  if (to.meta.requiresAuth && !auth.isAuthenticated.value) {
+    // If trying to access a protected route and user is not authenticated
+    return next({ name: 'SignIn', query: { redirect: to.fullPath } })
+  } else {
+    next()
+  }
+})
 export default router

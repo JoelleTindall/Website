@@ -26,18 +26,18 @@ in order:
 
 ## Project Setup
 
+### Install Docker
+
+https://docs.docker.com/get-started/get-docker/
+
+### Build Image
+
 ```sh
-npm install
+docker compose build
 ```
 
-### Compile and Hot-Reload for Development
+### Run Image
 
 ```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
+docker compose up
 ```

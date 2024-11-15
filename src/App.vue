@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import router from './router'
 import Bouncecat from './assets/images/bouncecat.gif'
 
 const pageOpen = ref([false, false, false, false])
@@ -11,6 +12,23 @@ const wink = ref(false)
 const route = useRoute()
 const windowWidth = ref(window.innerWidth)
 const windowHeight = ref(window.innerHeight)
+
+router.beforeEach(to => {
+  if (to.path.includes('about')) {
+    console.log('about')
+    page.value = 1
+    pageOpen.value[0] = true
+  } else if (to.path.includes('projects')) {
+    page.value = 2
+    pageOpen.value[1] = true
+  } else if (to.path.includes('contact')) {
+    page.value = 3
+    pageOpen.value[2] = true
+  } else if (to.path.includes('guestbook')) {
+    page.value = 4
+    pageOpen.value[3] = true
+  }
+})
 
 watch(windowWidth, () => {
   // Do something when window width changes....
@@ -39,25 +57,12 @@ function whichPage() {
 
 // determines the class for the input button
 
-function showPage(page_selected) {
+function showPage() {
   // Reset all pages
   pageOpen.value.fill(false)
   // scroll back up to top
   window.scrollTo(0, 0)
 
-  if (page_selected === 'about') {
-    page.value = 1
-    pageOpen.value[0] = true
-  } else if (page_selected === 'projects') {
-    page.value = 2
-    pageOpen.value[1] = true
-  } else if (page_selected === 'contact') {
-    page.value = 3
-    pageOpen.value[2] = true
-  } else if (page_selected === 'guestbook') {
-    page.value = 4
-    pageOpen.value[3] = true
-  }
   menu.value = false
 }
 
@@ -93,6 +98,14 @@ watch(menu, newValue => {
     document.body.style.overflow = 'initial'
   }
 })
+
+//FIX ME!!!!!!!
+// function initialize() {
+
+// onMounted(() => {
+//   console.log('blah')
+//   initialize()
+// })
 </script>
 
 <style>
@@ -149,7 +162,7 @@ watch(menu, newValue => {
       <input
         id="about"
         class="am"
-        @click="$router.push({ name: 'About' }, showPage('about'))"
+        @click="$router.push({ name: 'About' }, showPage())"
         :class="{ open: pageOpen[0], closed: !pageOpen[0] }"
         type="button"
         value="About"
@@ -157,7 +170,7 @@ watch(menu, newValue => {
       <input
         id="projects"
         class="bm"
-        @click="$router.push({ name: 'Projects' }, showPage('projects'))"
+        @click="$router.push({ name: 'Projects' }, showPage())"
         :class="{ open: pageOpen[1], closed: !pageOpen[1] }"
         type="button"
         value="Projects"
@@ -165,7 +178,7 @@ watch(menu, newValue => {
       <input
         id="contact"
         class="cm"
-        @click="$router.push({ name: 'Contact' }, showPage('contact'))"
+        @click="$router.push({ name: 'Contact' }, showPage())"
         :class="{ open: pageOpen[2], closed: !pageOpen[2] }"
         type="button"
         value="Contact"
@@ -173,7 +186,7 @@ watch(menu, newValue => {
       <input
         id="guestbook"
         class="dm"
-        @click="$router.push({ name: 'Guestbook' }, showPage('guestbook'))"
+        @click="$router.push({ name: 'Guestbook' }, showPage())"
         :class="{ open: pageOpen[3], closed: !pageOpen[3] }"
         type="button"
         value="Guestbook"
@@ -185,7 +198,7 @@ watch(menu, newValue => {
         id="aboutbtn"
         type="button"
         class="a"
-        @click="$router.push({ name: 'About' }, showPage('about'))"
+        @click="$router.push({ name: 'About' }, showPage())"
         :class="{ open: pageOpen[0], closed: !pageOpen[0] }"
         value="About"
       />
@@ -195,7 +208,7 @@ watch(menu, newValue => {
         id="projectsbtn"
         type="button"
         class="b"
-        @click="$router.push({ name: 'Projects' }, showPage('projects'))"
+        @click="$router.push({ name: 'Projects' }, showPage())"
         :class="{ open: pageOpen[1], closed: !pageOpen[1] }"
         value="Projects"
       />
@@ -205,7 +218,7 @@ watch(menu, newValue => {
         id="contactbtn"
         type="button"
         class="c"
-        @click="$router.push({ name: 'Contact' }, showPage('contact'))"
+        @click="$router.push({ name: 'Contact' }, showPage())"
         :class="{ open: pageOpen[2], closed: !pageOpen[2] }"
         value="Contact"
       />
@@ -215,7 +228,7 @@ watch(menu, newValue => {
         id="guestbookbtn"
         type="button"
         class="d"
-        @click="$router.push({ name: 'Guestbook' }, showPage('guestbook'))"
+        @click="$router.push({ name: 'Guestbook' }, showPage())"
         :class="{ open: pageOpen[3], closed: !pageOpen[3] }"
         value="Guestbook"
       />

@@ -47,13 +47,14 @@ const routes = [
 const router = createRouter({ history: createWebHistory(), routes })
 
 router.beforeEach((to, from, next) => {
-  const auth = useAuthStore() // Using the Composition API to access the auth state
+  const auth = useAuthStore() // access the auth state
 
   if (to.meta.requiresAuth && !auth.isAuthenticated.value) {
-    // If trying to access a protected route and user is not authenticated
+    // If trying to access requiresAuth route and user not authenticated
     return next({ name: 'SignIn', query: { redirect: to.fullPath } })
   } else {
     next()
   }
 })
+
 export default router

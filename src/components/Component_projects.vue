@@ -38,8 +38,8 @@
             :class="{ expand: isExpanded(card) }"
             :src="arrowIcon"
           />
-          <p v-if="!isExpanded(card)"><b>More Info</b></p>
-          <p v-else><b>Less Info</b></p>
+          <p class="moreless" v-if="!isExpanded(card)"><b>More Info</b></p>
+          <p class="moreless" v-else><b>Less Info</b></p>
           <img
             class="arrowr"
             :id="'title' + card"
@@ -315,6 +315,11 @@ function getSS(title) {
     grid-row: 2;
     grid-column: 2;
   }
+}
+
+.info p.moreless {
+  margin: 0 auto;
+  font-size: 2em;
 }
 
 .mobiletitle {

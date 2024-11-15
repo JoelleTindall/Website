@@ -6,6 +6,11 @@
     - created joellesite.Dockerfile
     - attached postgre db (no data currently)
 
+    11/15/2024
+    - created docker-compose.yml
+    - created joellesite.Dockerfile
+    - attached postgre db (no data currently)
+
     11/14/2024
 
     - added admin page accessed through /signin and credentials test and test
@@ -20,7 +25,7 @@
 
 in order:
 
-- docker stuff
+
 - switch from supabase to postgre
 - project admin
 - cookie if you've already left a guestbook message that day

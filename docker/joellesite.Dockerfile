@@ -16,6 +16,13 @@ COPY . .
 # Build the Vue.js application for production
 RUN npm run build
 
+# do this thing
+EXPOSE 3000
+
+# Install serv
+
+RUN npm install serv
+
 # Run build server
 
-RUN npx serve -s dist
+CMD ["npx", "serve", "-s", "dist", "-l", "3000"]

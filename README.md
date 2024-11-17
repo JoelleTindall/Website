@@ -52,6 +52,12 @@ https://docs.docker.com/get-started/get-docker/
 
 ## For Development
 
+### Install dependencies
+
+```sh
+npm install
+```
+
 ### Make sure DB container is built
 
 ```sh

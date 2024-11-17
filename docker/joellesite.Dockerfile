@@ -1,5 +1,5 @@
 # Use the official node image as the base image
-FROM node:16-alpine as build-stage
+FROM node:16-alpine AS build-stage
 
 # Set the working directory
 WORKDIR /JoelleSite
@@ -16,13 +16,17 @@ COPY . .
 # Build the Vue.js application for production
 RUN npm run build
 
-# do this thing
+
+# Expose port for site
 EXPOSE 3000
 
-# Install serv
+EXPOSE 5432
 
+# Install serv
 RUN npm install serv
 
 # Run build server
-
 CMD ["npx", "serve", "-s", "dist", "-l", "3000"]
+
+
+

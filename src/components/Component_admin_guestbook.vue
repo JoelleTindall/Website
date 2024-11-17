@@ -1,18 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { supabase } from '@/lib/supabaseClient'
+import axios from 'axios';
 import moment from 'moment'
 import Bouncecat from '../assets/images/bouncecat.gif'
-
-//example entries and array, would be stored and retrieved in DB in real version
-// const entries = ref([
-//   {
-//     name: 'Alice',
-//     message:
-//       'This is a great guestbook! Wow I love it so Im gonna leave a longgg message!! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaa HAHA okay Im done!!',
-//   },
-//   { name: 'pair of pants', message: 'shit sucks' },
-// ])
 
 const loading = ref(true)
 const failed = ref(false)
@@ -23,50 +13,43 @@ const hasMoreEntries = ref(true)
 const hasPreviousEntries = ref(false)
 
 //date for new post uploads
-let date = ref('')
-
-setInterval(() => {
-  date.value = moment(new Date()).format('YYYY-M-D')
-}, 1000)
 
 // fetches entries based on the currentpage.value
 async function getEntries() {
-  loading.value = true
+  loading.value = true;
   try {
-    const { data, error, count } = await supabase
-      .from('TGuestbook')
-      .select('*', { count: 'exact' })
-      .range(
-        // calculates range
-        (currentPage.value - 1) * entriesPerPage,
-        currentPage.value * entriesPerPage - 1,
-      )
-      .order('id', { ascending: false })
+    // Calculate the offset based on the current page and entries per page
+    const offset = (currentPage.value - 1) * entriesPerPage;
 
-    if (error) throw error
+    // Fetch entries from the backend API with pagination
+    const response = await axios.get('http://localhost:3001/api/tguestbook', {
+      params: {
+        offset,
+        limit: entriesPerPage,
+      },
+    });
 
-    // if first page, just load entries; else replace the current entries
-    if (currentPage.value === 1) {
-      entries.value = data
-    } else {
-      entries.value = data
-    }
+    // update entries with the data returned from the backend
+    entries.value = response.data.entries; // Update with paginated entries
+    const totalEntries = response.data.total; // Get the total count of entries
 
-    // updates the flags based on pagination
-    hasMoreEntries.value = currentPage.value * entriesPerPage < count
-    hasPreviousEntries.value = currentPage.value > 1
-    loading.value = false
-  } catch (err) {
-    failed.value = true
-    console.error('Error fetching entries:', err)
+    // update pagination flags
+    hasMoreEntries.value = currentPage.value * entriesPerPage < totalEntries;
+    hasPreviousEntries.value = currentPage.value > 1;
+
+    loading.value = false;
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    failed.value = true;
+    loading.value = false;
   }
 }
 
-// loads the next set of entries
+// load the next set of entries if there are more
 function loadNext() {
   if (hasMoreEntries.value) {
-    currentPage.value += 1
-    getEntries()
+    currentPage.value += 1; // Increment current page
+    getEntries(); // Fetch new entries based on the updated page
   }
 }
 
@@ -78,24 +61,47 @@ function loadPrevious() {
   }
 }
 
+
 async function removeEntry(selectedID) {
-  loading.value = true
-  console.log(selectedID)
+  loading.value = true;
   try {
-    const { error } = await supabase
-      .from('TGuestbook')
-      .delete()
-      .eq('id', selectedID)
+    // Send a DELETE request to the backend to remove the entry by ID
+    const response = await axios.delete(`http://localhost:3001/api/tguestbook/${selectedID}`);
 
-    if (error) throw error
+    // Check if the response is successful
+    if (response.status === 200) {
+      // Successfully deleted the entry, now reload the entries
+      getEntries();
+    } else {
+      throw new Error('Failed to delete entry');
+    }
 
-    loading.value = false
-    getEntries()
+    loading.value = false;
   } catch (err) {
-    failed.value = true
-    console.error('Error deleting entry:', err)
+    failed.value = true;
+    console.error('Error deleting entry:', err);
   }
 }
+
+
+// async function removeEntry(selectedID) {
+//   loading.value = true
+//   console.log(selectedID)
+//   try {
+//     const { error } = await supabase
+//       .from('TGuestbook')
+//       .delete()
+//       .eq('id', selectedID)
+
+//     if (error) throw error
+
+//     loading.value = false
+//     getEntries()
+//   } catch (err) {
+//     failed.value = true
+//     console.error('Error deleting entry:', err)
+//   }
+// }
 
 // load entries on page load
 onMounted(() => {
@@ -119,7 +125,7 @@ onMounted(() => {
           <button class="remove" @click="removeEntry(entry.id)">X</button>
         </div>
         <div class="messagewrapper holder">
-          <div class="date">{{ entry.created_at }}</div>
+          <div class="date">{{ moment(entry.created_at).format('MM/D/YYYY') }}</div>
           <div class="displayname">{{ entry.name }} says..</div>
           <div class="msg">{{ entry.message }}</div>
         </div>

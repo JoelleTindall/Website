@@ -1,6 +1,13 @@
 # JoelleSite
 
 ## LATEST UPDATES
+
+    11/16/2024
+    -switched from supabase to postgresql
+    -created server.js for backend
+    -created backend.Dockerfile
+    -Modified docker-compose.yml to account for backend
+
     11/15/2024
     - created docker-compose.yml
     - created joellesite.Dockerfile
@@ -25,8 +32,8 @@
 
 in order:
 
-
-- switch from supabase to postgre
+- learn how to format readme files correctly
+- implement secure authentication
 - project admin
 - cookie if you've already left a guestbook message that day
 - news section (updatable via admin page)

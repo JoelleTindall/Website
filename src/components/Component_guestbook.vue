@@ -1,11 +1,12 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
-import { supabase } from '@/lib/supabaseClient'
+import axios from 'axios';
 import moment from 'moment'
 import Bouncecat from '../assets/images/bouncecat.gif'
 import catReaction from '../assets/images/reactions/cat.png'
 import eggReaction from '../assets/images/reactions/egg.png'
 import madReaction from '../assets/images/reactions/mad.png'
+
 const submitted = ref(false)
 const txtName = ref('')
 const txtMessage = ref('')
@@ -15,16 +16,6 @@ const chars = ref(0)
 const max = ref(false)
 const reactions = ref([catReaction, eggReaction, madReaction])
 const selectedReaction = ref(0)
-//example entries and array, would be stored and retrieved in DB in real version
-// const entries = ref([
-//   {
-//     name: 'Alice',
-//     message:
-//       'This is a great guestbook! Wow I love it so Im gonna leave a longgg message!! AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaa HAHA okay Im done!!',
-//   },
-//   { name: 'pair of pants', message: 'shit sucks' },
-// ])
-
 const loading = ref(true)
 const failed = ref(false)
 const entries = ref([])
@@ -37,47 +28,44 @@ const hasPreviousEntries = ref(false)
 let date = ref('')
 
 setInterval(() => {
-  date.value = moment(new Date()).format('YYYY-M-D')
+  date.value = moment(new Date())
 }, 1000)
 
-// fetches entries based on the currentpage.value
 async function getEntries() {
-  loading.value = true
+  loading.value = true;
   try {
-    const { data, error, count } = await supabase
-      .from('TGuestbook')
-      .select('*', { count: 'exact' })
-      .range(
-        // calculates range
-        (currentPage.value - 1) * entriesPerPage,
-        currentPage.value * entriesPerPage - 1,
-      )
-      .order('id', { ascending: false })
+    // Calculate the offset based on the current page and entries per page
+    const offset = (currentPage.value - 1) * entriesPerPage;
 
-    if (error) throw error
+    // Fetch entries from the backend API with pagination
+    const response = await axios.get('http://localhost:3001/api/tguestbook', {
+      params: {
+        offset,
+        limit: entriesPerPage,
+      },
+    });
 
-    // if first page, just load entries; else replace the current entries
-    if (currentPage.value === 1) {
-      entries.value = data
-    } else {
-      entries.value = data
-    }
+    // update entries with the data returned from the backend
+    entries.value = response.data.entries; // Update with paginated entries
+    const totalEntries = response.data.total; // Get the total count of entries
 
-    // updates the flags based on pagination
-    hasMoreEntries.value = currentPage.value * entriesPerPage < count
-    hasPreviousEntries.value = currentPage.value > 1
-    loading.value = false
-  } catch (err) {
-    failed.value = true
-    console.error('Error fetching entries:', err)
+    // update pagination flags
+    hasMoreEntries.value = currentPage.value * entriesPerPage < totalEntries;
+    hasPreviousEntries.value = currentPage.value > 1;
+
+    loading.value = false;
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+    failed.value = true;
+    loading.value = false;
   }
 }
 
-// loads the next set of entries
+// load the next set of entries if there are more
 function loadNext() {
   if (hasMoreEntries.value) {
-    currentPage.value += 1
-    getEntries()
+    currentPage.value += 1; // Increment current page
+    getEntries(); // Fetch new entries based on the updated page
   }
 }
 
@@ -89,7 +77,7 @@ function loadPrevious() {
   }
 }
 
-// load entries on page load
+// // load entries on page load
 onMounted(() => {
   getEntries()
 })
@@ -97,24 +85,37 @@ onMounted(() => {
 // Inserts a new entry into the database
 async function insertEntry() {
   try {
-    const { error } = await supabase.from('TGuestbook').insert({
-      created_at: date.value,
-      name: txtName.value,
-      message: txtMessage.value,
-      reaction: selectedReaction.value,
-    })
+    // Prepare data to be sent
+    const payload = {
+      created_at: date.value, // Date of entry
+      name: txtName.value,    // User's name
+      message: txtMessage.value, // User's message
+      reaction: selectedReaction.value, // Reaction (index of selected image)
+    };
 
-    if (error) throw error
-  } catch (err) {
-    failed.value = true
-    console.error('Error inserting entries:', err)
+    // Send POST request to the backend to insert data
+    const response= await axios.post('http://localhost:3001/api/tguestbook', payload)
+        // Check if the response is successful
+
+
+      if (response.status===200){
+        getEntries()
+        currentPage.value = 1
+      }
+
+
+  } catch (error) {
+    // Handle error
+    console.error('Error inserting entry:', error);
+    failed.value = true;
   }
 }
 
-// Watch for changes in txtMessage to update character count
+
+// watch for changes in txtMessage to update character count
 watch(txtMessage, newValue => {
-  chars.value = newValue.length // Update character count
-  max.value = chars.value >= 150 // Check if max character count is reached
+  chars.value = newValue.length
+  max.value = chars.value >= 100
 })
 
 // gets selected reaction
@@ -134,24 +135,25 @@ const checkEntry = () => {
 // adds a new entry then clears all fields
 const addEntry = async () => {
   window.scrollTo(0, 0) // scroll to the top
-  await insertEntry()
+  insertEntry()
   txtName.value = ''
   txtMessage.value = ''
   reactionSelected.value = 0
   successVisible.value = true // show success messages
 
-  getEntries() // reload entries
-  currentPage.value = 1
+
   setTimeout(() => {
     successShrink.value = true // Hide success message after 1.5 seconds
   }, 1500)
 }
+
+
 //  form submission
 const handleSubmit = () => {
   submitted.value = true
   //validates entry and returns true if good, then adds with addEntry
   if (checkEntry()) {
-    addEntry()
+     addEntry()
   }
 }
 
@@ -194,7 +196,7 @@ const resetForm = () => {
             <label>Name: </label>
             <input
               v-model="txtName"
-              maxlength="15"
+              maxlength="10"
               class="formfield"
               type="text"
               placeholder="Anonymous"
@@ -220,12 +222,12 @@ const resetForm = () => {
               placeholder="Say something nice or mean"
               rows="4"
               cols="35"
-              maxlength="150"
+              maxlength="100"
               :class="{ invalid: !txtMessage && submitted }"
             ></textarea>
           </div>
           <label class="field charlimit" :class="{ alert: max }"
-            >{{ chars }}/150</label
+            >{{ chars }}/100</label
           >
           <div class="field button">
             <button type="button" @click="resetForm">Nevermind!</button>
@@ -250,7 +252,7 @@ const resetForm = () => {
         <div v-else v-for="entry in entries" :key="entry.id" class="entry">
           <div class="reaction"><img :src="reactions[entry.reaction]" /></div>
           <div class="messagewrapper holder">
-            <div class="date">{{ entry.created_at }}</div>
+            <div class="date">{{ moment(entry.created_at).format('MM/D/YYYY') }}</div>
             <div class="displayname">{{ entry.name }} says..</div>
             <div class="msg">{{ entry.message }}</div>
           </div>
@@ -323,6 +325,11 @@ const resetForm = () => {
   gap: 0;
   background-color: #ffffff3b;
   border-radius: 30px;
+}
+
+.reactionholder label {
+text-wrap: nowrap;
+grid-column: 1 / span 3;
 }
 
 .reactionholder img {

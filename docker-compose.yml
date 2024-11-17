@@ -23,8 +23,21 @@ services:
       - '3000:3000'
     networks:
       - mynetwork
+  express-server:
+    build:
+      context: .
+      dockerfile: ./docker/backend.Dockerfile
+    container_name: Backend
+    ports:
+      - '3001:3001'
+    networks:
+      - mynetwork
+    restart: always
+    environment:
+      NODE_ENV: production
 volumes:
   postgres_data:
+
 
 networks:
   mynetwork:

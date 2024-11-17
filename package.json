@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "concurrently \"dotenv -e .env.development -- vite\" \"dotenv -e .env.development -- node server.js\"",
+    "dev": "concurrently \"dotenv -e .env.development -- vite\" \"dotenv -e .env.development -- node backend/server.js\"",
     "prisma:dev": "dotenv -e .env.development -- npx prisma migrate dev",
     "build": "vite build",
     "preview": "vite preview",
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
-    "@rollup/rollup-win32-x64-msvc": "^4.27.2",
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -26,7 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^5.2.0",
     "@vue/eslint-config-prettier": "^10.0.0",
     "concurrently": "^9.1.0",
     "eslint": "^9.13.0",

@@ -1,5 +1,5 @@
 # Use the official node image as the base image
-FROM node:16-alpine AS build-stage
+FROM node:18 AS build-stage
 
 
 # Set the working directory
@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 5000
 
 # Start the Express server
-CMD ["node", "server.js"]
+CMD ["node", "backend/server.js"]

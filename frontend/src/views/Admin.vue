@@ -1,9 +1,9 @@
 <template>
-  <About />
+  <Admin />
 </template>
 
 <script setup>
-import About from '@/components/Component_about.vue'
+import Admin from '../components/Component_admin.vue'
 </script>
 
 <style></style>

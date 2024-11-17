@@ -1,5 +1,5 @@
 # Use the official node image as the base image
-FROM node:16-alpine AS build-stage
+FROM node:18 AS build-stage
 
 # Set the working directory
 WORKDIR /JoelleSite

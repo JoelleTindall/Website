@@ -6,6 +6,7 @@
     -created .env.development for running DB in development mode
     -added script to package.json to quickly start frontend and backend server
     -automatically inserts dummy data to guestbook
+    -restructured project to seperate frontend and backend better
 
 ### 11/16/2024
     -switched from supabase to postgresql

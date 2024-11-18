@@ -57,7 +57,7 @@ async function getEntries() {
   } catch (error) {
     console.error('Error fetching messages:', error);
     failed.value = true;
-    loading.value = false;
+    loading.value = true;
   }
 }
 

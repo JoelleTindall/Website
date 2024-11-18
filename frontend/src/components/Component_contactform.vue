@@ -129,6 +129,10 @@ export default {
   padding-top: 30px;
 }
 
+#ContactForm {
+
+  margin:0 auto;
+}
 
 
 .componentwrapper {

@@ -89,7 +89,7 @@
             <div class="container">
               <img class="ssimg" style="padding: 10px" :src="card[3]" />
               <div class="ssoverlay" @click="focusimage(card[3])">
-                <img :src="magIcon" />
+                <img class="mag" :src="magIcon" />
               </div>
             </div>
             <div class="container">
@@ -368,8 +368,8 @@ function getSS(title) {
 .ssoverlay img {
   aspect-ratio: 1 / 1;
 
-  margin-top: initial;
-  margin: 0 auto;
+
+  margin: 0 auto!important;
 }
 
 .card {
@@ -401,8 +401,8 @@ function getSS(title) {
   font-size: min(2vw, 30px);
 }
 
-.gameimage {
-  margin-top: initial;
+img.gameimage {
+  margin-top: initial!important;
   /* margin:0; */
   aspect-ratio: 16/9;
   min-height: 100%;
@@ -411,7 +411,7 @@ function getSS(title) {
 }
 
 img.titleimage {
-  margin-top: 0;
+  margin-top: 0!important;
 }
 
 .buybtnholder {
@@ -431,6 +431,7 @@ img.titleimage {
   margin-left: 10px;
   margin-right: 10px;
   border-radius: 10px;
+
   box-shadow: 0px 5px 5px #cdade0;
 }
 
@@ -455,7 +456,7 @@ img.titleimage {
 .arrowr {
   filter: drop-shadow(3px 3px 3px #00000063);
   aspect-ratio: 1/1;
-  margin: auto;
+  margin: auto!important;
   height: 50px;
 
   transition: rotate 0.2s;
@@ -613,7 +614,7 @@ h3 {
 }
 
 .ssimg {
-  margin-top: initial;
+  margin-top: initial!important;
   cursor: pointer;
   display: block;
   width: 100%;
@@ -642,8 +643,11 @@ h3 {
   padding: 0 10%;
 }
 
-button {
+img .mag {
+  margin-top:0!important;
 }
+
+
 
 button.carouselbtn {
   /* border:2px dotted black; */

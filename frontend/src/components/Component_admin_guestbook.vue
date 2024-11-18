@@ -110,6 +110,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <div id="admin">
   <div id="guestbook" class="maincontent info">
     <div id="messagewrapper" class="message-wrapper">
       <h3>Remove stuff here:</h3>
@@ -137,6 +138,7 @@ onMounted(() => {
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style>
@@ -263,12 +265,12 @@ label {
   border-color: red;
 }
 
-#messagewrapper {
+#admin #messagewrapper {
   display: grid;
   padding: 10px;
   padding-bottom: 30px;
   width: 100%;
-  height: 600px;
+  height:auto;
   border-radius: 20px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;

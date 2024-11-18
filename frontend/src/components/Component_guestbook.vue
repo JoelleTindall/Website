@@ -487,9 +487,9 @@ textarea {
 #messagewrapper {
   display: grid;
   padding: 10px;
-  padding-bottom: 30px;
+
   width: 100%;
-  height: 600px;
+  height: auto;
   border-radius: 20px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;

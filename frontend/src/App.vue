@@ -3,15 +3,44 @@ import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import router from './router'
 import Bouncecat from './assets/images/bouncecat.gif'
+import logomain from './assets/images/joelle.png'
+import logowink from './assets/images/joellewink.png'
+import logomain_bw from './assets/images/joelle_bw.png'
+import logowink_bw from './assets/images/joellewink_bw.png'
 
+
+// import { storeToRefs } from 'pinia';
+
+
+
+
+
+const logostates=ref([logomain,logowink,logomain_bw,logowink_bw])
 const pageOpen = ref([false, false, false, false])
 const page = ref(0)
-const comic = ref(false)
+
 const menu = ref(false)
 const wink = ref(false)
 const route = useRoute()
 const windowWidth = ref(window.innerWidth)
 const windowHeight = ref(window.innerHeight)
+const theme = ref(false)
+
+function updateTheme(){
+  if (theme.value===false) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    theme.value=true
+
+  } else {
+
+    document.documentElement.removeAttribute('data-theme', 'dark');
+    theme.value=false
+  }
+}
+
+
+
+
 
 router.beforeEach(to => {
   if (to.path.includes('about')) {
@@ -74,13 +103,7 @@ function showMenu() {
   }
 }
 
-function comicSans() {
-  if (!comic.value) {
-    comic.value = true
-  } else {
-    comic.value = false
-  }
-}
+
 
 function logoWink() {
   if (!wink.value) {
@@ -99,20 +122,14 @@ watch(menu, newValue => {
   }
 })
 
-//FIX ME!!!!!!!
-// function initialize() {
-
-// onMounted(() => {
-//   console.log('blah')
-//   initialize()
-// })
 </script>
 
 <style>
 @import './assets/main.css';
 </style>
 
-<template>
+<template >
+
   <div class="topheader" :class="{ expand: menu }">
     <div class="rainleft">
       <div class="raina"></div>
@@ -130,17 +147,31 @@ watch(menu, newValue => {
 
     <div class="title">
       <img
-        v-show="!wink"
+        v-show="(!wink&&!theme)"
         class="logo"
         :class="{ expand: menu }"
-        src="./assets/images/joelle.png"
+        :src="logostates[0]"
         @click.prevent="logoWink"
       />
       <img
-        v-show="wink"
+        v-show="(wink&&!theme)"
         class="logo"
         :class="{ expand: menu }"
-        src="./assets/images/joellewink.png"
+        :src="logostates[1]"
+        @click="logoWink"
+      />
+      <img
+        v-show="(!wink&&theme)"
+        class="logo"
+        :class="{ expand: menu }"
+        :src="logostates[2]"
+        @click.prevent="logoWink"
+      />
+      <img
+        v-show="(wink&&theme)"
+        class="logo"
+        :class="{ expand: menu }"
+        :src="logostates[3]"
         @click="logoWink"
       />
     </div>
@@ -256,15 +287,16 @@ watch(menu, newValue => {
         <div id="Footer">
           <img
             class="bouncecat"
-            :class="{ flipped: comic }"
+            :class="{ flipped: theme }"
             :src="Bouncecat"
-            @click="comicSans"
+            @click="updateTheme"
           />
           <p>You've reached the end!</p>
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <style>

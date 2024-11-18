@@ -59,13 +59,21 @@ https://docs.docker.com/get-started/get-docker/
 npm install
 ```
 
-### Make sure DB container is built
+### If wanting DB access..
 
 ```sh
 docker compose build
+docker compose up
 ```
 
-### Start the DB container
+then either stop back and front end 
+
+```sh
+docker stop JoelleVue
+docker stop Backend
+```
+
+Or stop all (ctrl+c) and start DB container
 
 ```sh
 docker start my_postgres

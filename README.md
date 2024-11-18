@@ -74,7 +74,7 @@ docker start my_postgres
 ### Start the dev server
 
 ```sh
-npm run build
+npm run dev
 ```
 
 ## For Deployment

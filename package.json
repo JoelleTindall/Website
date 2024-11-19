@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "prisma": {
+    "schema": "./frontend/src/prisma/schema.prisma"
+  },
   "scripts": {
     "dev": "concurrently \"dotenv -e .env.development -- vite\" \"dotenv -e .env.development -- node backend/server.js\"",
-    "prisma:dev": "dotenv -e .env.development -- npx prisma migrate dev",
+    "prisma:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init_0; npx prisma generate",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",

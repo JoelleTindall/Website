@@ -3,6 +3,9 @@
 ## LATEST UPDATES
 
 #### 11/18/2024
+    -Fixed a problem in package.json with prisma when running in dev mode
+
+#### 11/18/2024
     -Added a dark mode (accessed via clicking little dancing footer thing) (Not quite finished but almost!)
     -Messed with some css (potentially broke things)
 

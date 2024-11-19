@@ -44,7 +44,6 @@ function updateTheme(){
 
 router.beforeEach(to => {
   if (to.path.includes('about')) {
-    console.log('about')
     page.value = 1
     pageOpen.value[0] = true
   } else if (to.path.includes('projects')) {
@@ -280,7 +279,7 @@ watch(menu, newValue => {
       <div class="raini"></div>
     </div>
   </div>
-  <div class="wrapper" :class="{ comicsans: comic }">
+  <div class="wrapper" >
     <div class="maindiv">
       <div id="contentwrapper" v-bind:class="whichPage()">
         <router-view></router-view>

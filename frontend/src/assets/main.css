@@ -247,7 +247,40 @@ body * {
       min-height: 60dvh;
     }
 
+ 
+  
+    div.text .aboutsummary {
+      padding-top:0;
+      margin:0 auto;
+      height:100%;
+      grid-column: 1 /span 2;
+    }
+  
+    #about .text .aboutphoto {
+      
+      grid-row: 2;
+      grid-column: 1 /span 2;
+    
+    }
+    
+    #about .text .aboutsummary {
+      grid-column: 1;
+      grid-row: 3;
+      grid-column: 1 /span 2;
+    }
 
+    #about .text h2 {
+      
+      grid-column: 1;
+      grid-column: 1 /span 2;
+    }
+  
+
+    .mephoto {
+      width: 75%;
+      max-width: 350px;
+      border: 8px solid rgba(0, 0, 0, 0.2);
+    }
 
   }
 
@@ -660,8 +693,9 @@ body * {
   }
 
   .mephoto {
-    width: 75%;
+    width: 90%;
     max-width: 600px;
+    margin:0 auto;
     border: 8px solid rgba(0, 0, 0, 0.2);
   }
 
@@ -737,6 +771,38 @@ body * {
     text-align: center;
   }
 
+  #about .text {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+  }
+
+  .text .aboutsummary {
+    /* padding-top:10%; */
+    margin:0 auto;
+    height:100%;
+    display: flex;
+  }
+
+   .text .aboutphoto {
+    grid-column: 1;
+    grid-row:2;
+  
+  }
+  
+   .text .aboutsummary {
+    grid-column: 2;
+    grid-row:2;
+
+  }
+
+
+   #about .text h2 {
+    grid-column: 1 /span 2;
+    font-size: calc(2vw + 2vh);
+    padding-bottom: 30px;
+   }
+
   h2 {
     color: rgba(0, 0, 0, 0.9);
     font-family: 'Concert One', sans-serif;
@@ -756,6 +822,7 @@ body * {
 
   .text {
     box-shadow: 5px 5px rgba(0, 0, 0, 0.103);
+   
   }
 
   .info p {

@@ -190,6 +190,7 @@ watch(menu, newValue => {
       />
     </div>
     <div class="mobilemenu" :class="{ expand: menu }">
+
       <input
         id="about"
         class="am"

@@ -3,8 +3,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '../auth'
 
-import Guestbook from './Component_admin_guestbook.vue'
-import Projects from './Component_admin_projects.vue'
+import Guestbook from './c_admin_guestbook.vue'
+import Projects from './c_admin_projects.vue'
 const router = useRouter()
 const auth = useAuthStore()
 

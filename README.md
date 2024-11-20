@@ -2,6 +2,10 @@
 
 ## LATEST UPDATES
 
+#### 11/20/2024
+    - Merged 'Contact' and 'Guestbook' to one view
+    - Created 'News' view/component (Unfinished)
+
 #### 11/19/2024
     -Fixed a problem in package.json with prisma when running in dev mode
     -Rearranged about page (work in progress)

@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import About from '../components/Component_about.vue'
+import About from '../components/c_about.vue'
 </script>
 
 <style></style>

@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import SignIn from '../components/Component_signin.vue'
+import SignIn from '../components/c_signin.vue'
 </script>
 
 <style></style>

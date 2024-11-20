@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import Guestbook from '../components/Component_guestbook.vue'
+import Guestbook from '../components/c_guestbook.vue'
 </script>
 
 <style></style>

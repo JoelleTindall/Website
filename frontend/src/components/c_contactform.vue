@@ -1,7 +1,7 @@
 <template>
   <div id="contact" class="maincontent info">
     <div class="text">
-      <h2>Contact Me</h2>
+      <h2>Contact Me Directly</h2>
       <p>
         You can reach me at <a href="mailto:JoelleStuff@gmail.com">my email</a> or submit something
         through the form below!

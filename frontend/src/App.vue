@@ -49,10 +49,10 @@ router.beforeEach(to => {
   } else if (to.path.includes('projects')) {
     page.value = 2
     pageOpen.value[1] = true
-  } else if (to.path.includes('contact')) {
+  } else if (to.path.includes('news')) {
     page.value = 3
     pageOpen.value[2] = true
-  } else if (to.path.includes('guestbook')) {
+  } else if (to.path.includes('contact')) {
     page.value = 4
     pageOpen.value[3] = true
   }
@@ -78,8 +78,8 @@ function whichPage() {
   return {
     about: route.path.includes('about'),
     projects: route.path.includes('projects'),
-    contact: route.path.includes('contact'),
-    guestbook: route.path.includes('guestbook'),
+    contact: route.path.includes('news'),
+    guestbook: route.path.includes('contact'),
   }
 }
 
@@ -207,20 +207,20 @@ watch(menu, newValue => {
         value="Projects"
       />
       <input
-        id="contact"
+        id="news"
         class="cm"
-        @click="$router.push({ name: 'Contact' }, showPage())"
+        @click="$router.push({ name: 'News' }, showPage())"
         :class="{ open: pageOpen[2], closed: !pageOpen[2] }"
         type="button"
-        value="Contact"
+        value="News"
       />
       <input
         id="guestbook"
         class="dm"
-        @click="$router.push({ name: 'Guestbook' }, showPage())"
+        @click="$router.push({ name: 'Contact' }, showPage())"
         :class="{ open: pageOpen[3], closed: !pageOpen[3] }"
         type="button"
-        value="Guestbook"
+        value="Contact"
       />
     </div>
 
@@ -249,9 +249,9 @@ watch(menu, newValue => {
         id="contactbtn"
         type="button"
         class="c"
-        @click="$router.push({ name: 'Contact' }, showPage())"
+        @click="$router.push({ name: 'News' }, showPage())"
         :class="{ open: pageOpen[2], closed: !pageOpen[2] }"
-        value="Contact"
+        value="News"
       />
     </div>
     <div class="topbuttons buttonholder md">
@@ -259,9 +259,9 @@ watch(menu, newValue => {
         id="guestbookbtn"
         type="button"
         class="d"
-        @click="$router.push({ name: 'Guestbook' }, showPage())"
+        @click="$router.push({ name: 'Contact' }, showPage())"
         :class="{ open: pageOpen[3], closed: !pageOpen[3] }"
-        value="Guestbook"
+        value="Contact"
       />
     </div>
 
@@ -294,7 +294,9 @@ watch(menu, newValue => {
           <p>You've reached the end!</p>
         </div>
       </div>
+
     </div>
+
   </div>
 
 </template>

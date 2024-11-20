@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import Projects from '../components/Component_projects.vue'
+import Projects from '../components/c_projects.vue'
 </script>
 
 <style></style>

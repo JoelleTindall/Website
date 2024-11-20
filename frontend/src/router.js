@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, useRoute } from 'vue-router'
 import { useAuthStore } from './auth'
 import About from './views/About.vue'
 import Projectcarousel from './views/Projects.vue'
-import Contactform from './views/Contactform.vue'
+import News from './views/News.vue'
 import Guestbook from './views/Guestbook.vue'
 import SignIn from './views/SignIn.vue'
 import Admin from './views/Admin.vue'
@@ -24,12 +24,12 @@ const routes = [
   {
     path: '/contact',
     name: 'Contact',
-    component: Contactform,
+    component: Guestbook,
   },
   {
-    path: '/guestbook',
-    name: 'Guestbook',
-    component: Guestbook,
+    path: '/news',
+    name: 'News',
+    component: News,
   },
   {
     path: '/signin',

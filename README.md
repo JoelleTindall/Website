@@ -2,6 +2,9 @@
 
 ## LATEST UPDATES
 
+#### 11/22/2024
+    - Working on smtp stuff (non functioning atm)
+
 #### 11/20/2024
     - Merged 'Contact' and 'Guestbook' to one view
     - Created 'News' view/component (Unfinished)

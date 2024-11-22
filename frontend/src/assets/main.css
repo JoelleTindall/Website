@@ -708,7 +708,7 @@ body * {
 
   .mephoto {
     width: 90%;
-    max-width: 482px;
+    max-width: 420px;
     margin:0 auto;
     border: 8px solid rgba(0, 0, 0, 0.2);
   }
@@ -794,6 +794,7 @@ body * {
 
   .text .aboutsummary {
     /* padding-top:10%; */
+    max-width: 420px;
     margin:0 auto;
     height:100%;
     display: flex;
@@ -858,6 +859,10 @@ body * {
     /* font-weight: 400; */
     font-style: normal;
     font-size: min(3.5vw, 20px);
+  }
+
+  .aboutsummary p {
+    margin-left: 0;
   }
 
   p {

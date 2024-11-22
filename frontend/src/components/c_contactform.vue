@@ -50,7 +50,7 @@
 
 <script>
 import { ref, watch } from 'vue'
-
+import axios from 'axios';
 export default {
   setup() {
     const txtName = ref('')
@@ -78,6 +78,7 @@ export default {
 
       if (txtName.value && txtEmail.value && txtMessage.value && emailRegex.test(txtEmail.value)) {
         success.value = true;
+        sendMessage()
         window.scrollTo(0, 0);
       } else {
         if (!txtName.value || !txtEmail.value || !txtMessage.value || !emailRegex.test(txtEmail.value)) {
@@ -90,6 +91,8 @@ export default {
       }
     }
 
+
+
     const resetForm = () => {
       txtName.value = ''
       txtEmail.value = ''
@@ -97,6 +100,29 @@ export default {
       success.value = false
       submitted.value = false
     }
+
+    async function sendMessage() {
+      console.log('sending');
+      const statusMessage=ref('');
+      try {
+        // Sending the form data directly to the server (assuming the backend is set up to handle this)
+        const response = await axios.post('http://localhost:8000/mail.php', {
+          name: txtName.value,
+          email: txtEmail.value,
+          message: txtMessage.value
+        });
+
+        if (response.data.success) {
+          statusMessage.value = 'Your message has been sent!';
+        } else {
+          statusMessage.value = 'Something went wrong, please try again.';
+        }
+      } catch (error) {
+        console.error('Error during request:', error);
+        statusMessage.value = 'There was an error with the request.';
+      }
+
+  }
 
     return {
       txtName,

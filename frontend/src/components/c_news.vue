@@ -7,7 +7,7 @@
       <p class="date">{{ date }}</p>
       <h2>{{subject}}</h2>
       <div class="newstext">
-        <p> blah blah blah <br> and then blah!!! okay?</p>
+        <p> Rock, Paper, Scissors, Boom!, my new playdate game, launches on catalogue 11/26!<br><br> Pretty exciting stuff, right?</p>
       </div>
       <div class="newsphotos">
         <img src="../assets/images/games/rpsb/RPSB.png">
@@ -48,6 +48,11 @@ const subject=ref('RPSB Launches 11/26!')
 
   text-align: left;
 
+}
+
+#story .newsphotos {
+  margin:0 auto;
+  padding:20px;
 }
 
 

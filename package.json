@@ -7,7 +7,8 @@
     "schema": "./frontend/src/prisma/schema.prisma"
   },
   "scripts": {
-    "dev": "concurrently \"dotenv -e .env.development -- vite\" \"dotenv -e .env.development -- node backend/server.js\"",
+    "dev": "concurrently \"dotenv -e .env.development -- vite\" \"dotenv -e .env.development -- node backend/server.js\" \" npm run php-server\"",
+    "php-server": "php -S localhost:8000 -t backend/php",
     "prisma:dev": "dotenv -e .env.development -- npx prisma migrate dev --name init_0; npx prisma generate",
     "build": "vite build",
     "preview": "vite preview",
@@ -22,6 +23,7 @@
     "dotenv-cli": "^7.4.2",
     "express": "^4.21.1",
     "moment": "^2.30.1",
+    "php-server": "^2.0.0",
     "serve": "^14.2.4",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"

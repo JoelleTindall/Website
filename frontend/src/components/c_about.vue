@@ -30,7 +30,7 @@ window.addEventListener('resize', () => {
 windowWidth.value = window.innerWidth
 onMounted(() => {
   windowWidth.value = window.innerWidth
-  if (windowWidth.value > 768) {
+  if (windowWidth.value > 960) {
     fullimage.value = true
   } else {
     fullimage.value=false
@@ -72,6 +72,10 @@ onMounted(() => {
       margin:0 auto;
       height:100%;
       grid-column: 1 /span 2;
+
+    }
+    div.aboutsummary{
+      margin-top: 0px;
     }
 
     #about .text .aboutphoto {
@@ -99,6 +103,10 @@ onMounted(() => {
       max-width: 350px;
       border: 8px solid rgba(0, 0, 0, 0.2);
     }
+
+    .aboutsummary p {
+    margin-left: 10px;
+  }
   }
 
 </style>

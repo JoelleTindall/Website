@@ -1,16 +1,54 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
-
-
+import nodemailer from 'nodemailer'
+// import * as fs from 'node:fs/promises';
+// import * as path from 'node:path';
+// import * as process from 'node:process';
 const app = express();
 const prisma = new PrismaClient();
 
 // Enable CORS for frontend communication
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
 
+//-----------------------------FOR EMAIL-------------------------------
+app.post('/contact', (req,res)=>{
 
+  // console.log('Contact Form Submission:', { c_name, c_email, c_message });
+  const transporter = nodemailer.createTransport({
+    service: 'zoho',
+    auth: {
+      user: 'joellebot@zohomail.com',
+      pass: 'Homestar2_'
+    }
+  })
+
+  const mailOptions = {
+    from: 'joellebot@zohomail.com',
+    to: 'joellestuff@gmail.com',
+    subject: `Message from ${req.body.c_email}`,
+    text: req.body.c_message
+  }
+
+  transporter.sendMail(mailOptions, (error, info)=>{
+    if(error){
+      console.log(error);
+      res.send('error');
+    } else{
+      console.log('Email sent: ' + info.response)
+      res.send.apply('success')
+    }
+  })
+})
+
+// app.post('/contact', (req,res)=>{
+//   res.sendFile(__dirname + '')
+// })
+
+//---------------------------FOR DB------------------------------------
 // define an endpoint to fetch guestbook entries with pagination
 app.get('/api/tguestbook', async (req, res) => {
   const { offset = 0, limit = 3 } = req.query;

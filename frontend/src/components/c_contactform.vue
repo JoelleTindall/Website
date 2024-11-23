@@ -102,14 +102,13 @@ export default {
     }
 
     async function sendMessage() {
-      console.log('sending');
+
       const statusMessage=ref('');
       try {
-        // Sending the form data directly to the server (assuming the backend is set up to handle this)
-        const response = await axios.post('http://localhost:8000/mail.php', {
-          name: txtName.value,
-          email: txtEmail.value,
-          message: txtMessage.value
+        const response = await axios.post('http://localhost:3001/contact', {
+          c_name: txtName.value,
+          c_email: txtEmail.value,
+          c_message: txtMessage.value
         });
 
         if (response.data.success) {

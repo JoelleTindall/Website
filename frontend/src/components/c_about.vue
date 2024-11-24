@@ -53,18 +53,23 @@ onMounted(() => {
           State Technical and Community College, resulting in an Associate Degree
           in Applied Sciences. She furthered her studies at Northern Kentucky
           University, which culminated into a Bachelors of Science, majoring in
-          Computer Information Technology. This proved to be pointless.
+          Computer Information Technology.
           <br /><br />
           Joelle has since used her powers for both good and evil,
           <a href="https://play.date/games/search/?q=Joelle+Tindall"
             >creating games for the PlayDate</a> in her spare time.
         </p>
       </div>
+      <div class="aboutsummary2"><h2 style="padding-top:10px;">What can she do?</h2></div>
     </div>
   </div>
 </template>
 
 <style>
+
+.aboutsummary2 {
+  grid-column: 1 /span 2;
+}
 
 @media only screen and (max-width: 960px) {
 .text .aboutsummary {

@@ -35,7 +35,82 @@ body * {
 :root{
 
 
+
+  .moreless {
+   align-self: center;
+  }
+  
+  .cando {
+    grid-column: 1 /span 2;
+    display:grid;
+    grid-template-rows: max-content;
+    background-color: rgba(236, 233, 233, 0.1);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+  }
+
+  .cando li {
+  font-size:1em;
+
+  }
+
+  @media only screen and (max-width: 1380px) {
+  .text .aboutsummary {
+        padding-top:20px;
+        margin:0 auto;
+        height:100%;
+        grid-column: 1 /span 2;
+  
+      }
+      div.aboutsummary{
+        margin-top: 0px;
+        
+      }
+  
+      #about .text .aboutphoto {
+  
+        grid-row: 2;
+        grid-column: 1 /span 2;
+  
+      }
+  
+      #about .text .aboutsummary {
+        grid-column: 1;
+        grid-row: 3;
+        grid-column: 1 /span 2;
+      }
+  
+      #about .text h2 {
+  
+        grid-column: 1;
+        grid-column: 1 /span 2;
+      }
+  
+  
+      img.mephoto {
+
+        width: 75%;
+        max-width: 500px;
+        border: 8px solid rgba(0, 0, 0, 0.2);
+      }
+  
+      .aboutsummary p {
+      margin-left: 10px;
+    }
+    }
+
   @media only screen and (max-width: 768px) {
+
+    #about .aboutsummary h2.summaryhead  {  
+      border-radius: 0;
+      width:100%;
+      padding: 5px;
+      padding-bottom: 0;
+    
+    }
+
+
     .maindiv {
       grid-template-columns: 1fr !important;
     }
@@ -259,6 +334,7 @@ body * {
       margin:0 auto;
       height:100%;
       grid-column: 1 /span 2;
+      
     }
   
     #about .text .aboutphoto {
@@ -272,6 +348,7 @@ body * {
       grid-column: 1;
       grid-row: 3;
       grid-column: 1 /span 2;
+      
     }
 
     #about .text h2 {
@@ -287,6 +364,20 @@ body * {
       border: 8px solid rgba(0, 0, 0, 0.2);
     }
 
+    div.aboutphoto{
+      background-color: rgba(255, 255, 255, .1);
+      padding-top:10px;
+
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      margin-left:10px;
+      margin-right:10px;
+    }
+
+    div.aboutsummary p {
+      border-top-left-radius:0px ;
+      border-top-right-radius:0px;
+    }
   }
 
   @media only screen and (min-width: 769px) {
@@ -814,14 +905,35 @@ body * {
    .text .aboutsummary {
     grid-column: 2;
     grid-row:2;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: max-content;
+
 
   }
+
+  .text .aboutsummary .summary {
+    grid-column: 1 /span 2;
+    margin-bottom: 0;
+    padding-bottom: 20px;
+
+  }
+
+
 
 
    #about .text h2 {
     grid-column: 1 /span 2;
     font-size: calc(2vw + 2vh);
-    padding-bottom: 30px;
+     padding-bottom: 20px;
+   }
+
+   #about .text h3 {
+    font-family: 'Concert One', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: calc(1vw + 1.5vh);
+     
    }
 
   h2 {
@@ -865,9 +977,12 @@ body * {
     margin-left: 0;
     background-color: rgba(255, 255, 255, .1);
     border-radius: 20px;
+    border-bottom-left-radius:0 ;
+    border-bottom-right-radius: 0;
     height:100%;
     border-width: 8px;
     padding:20px;
+    padding-bottom: 0;
   }
 
   p {

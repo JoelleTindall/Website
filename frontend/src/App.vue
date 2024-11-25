@@ -26,14 +26,42 @@ const windowWidth = ref(window.innerWidth)
 const windowHeight = ref(window.innerHeight)
 const theme = ref(false)
 
+function getCookie(cname) {
+  let name = cname + "=";
+  let decodedCookie = decodeURIComponent(document.cookie);
+  let ca = decodedCookie.split(';');
+  for(let i = 0; i <ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+
+
+
+   const cookie = getCookie('theme')
+   if (cookie==='dark') {
+    theme.value=true
+    document.documentElement.setAttribute('data-theme', 'dark');
+   }
+
+
 function updateTheme(){
   if (theme.value===false) {
     document.documentElement.setAttribute('data-theme', 'dark');
+    document.cookie="theme=dark;"
     theme.value=true
 
   } else {
 
     document.documentElement.removeAttribute('data-theme', 'dark');
+    document.cookie='theme=dark;expires=Thu, 01 Jan 1970 00:00:00;'
     theme.value=false
   }
 }

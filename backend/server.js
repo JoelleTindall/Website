@@ -3,9 +3,10 @@ import bodyParser from 'body-parser';
 import { PrismaClient } from '@prisma/client';
 import cors from 'cors';
 import nodemailer from 'nodemailer'
+// import * as env from 'process.env';
 // import * as fs from 'node:fs/promises';
 // import * as path from 'node:path';
-// import * as process from 'node:process';
+ import * as process from 'node:process';
 const app = express();
 const prisma = new PrismaClient();
 
@@ -19,10 +20,10 @@ app.post('/contact', (req,res)=>{
 
   // console.log('Contact Form Submission:', { c_name, c_email, c_message });
   const transporter = nodemailer.createTransport({
-    service: 'zoho',
+    service: process.env.NODEMAILER_SERVICE,
     auth: {
-      user: 'joellebot@zohomail.com',
-      pass: 'Homestar2_'
+      user: process.env.NODEMAILER_USER,
+      pass: process.env.NODEMAILER_KEY
     }
   })
 

@@ -39,7 +39,7 @@
         <div v-else id="Formwrapper" class="maincontent contactform">
 
           <p class="successmessage" style="height:100%;">
-            Your message was Sent! Except not really.
+            Your message was Sent! Really!
           </p>
 
         </div>

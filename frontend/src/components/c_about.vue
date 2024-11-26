@@ -22,7 +22,7 @@ watch(windowWidth, () => {
   if (windowWidth.value > 1380) {
     movelist.value = false
   } else {
-    movelist.value=true
+    movelist.value=false
   }
 })
 
@@ -44,7 +44,7 @@ onMounted(() => {
   if (windowWidth.value > 1380) {
     movelist.value = false
   } else {
-    movelist.value=true
+    movelist.value=false
   }
 })
 </script>
@@ -58,6 +58,7 @@ onMounted(() => {
         <img class="mephoto" v-show="(!fullimage)" :src="photoState[1]"/>
       </div>
       <div class="aboutsummary">
+        <div class="whois">
         <h2 class="summaryhead" >Who is she?</h2>
         <p class="summary">
           Joelle Tindall was born and raised right here in Cincinnati.<br /><br />
@@ -71,6 +72,7 @@ onMounted(() => {
           <a href="https://play.date/games/search/?q=Joelle+Tindall"
             >creating games for the PlayDate</a> in her spare time.
         </p>
+      </div>
         <div v-if="!movelist" class="cando">
         <h2  style="margin:auto">What can she do?</h2>
         <div ><h3>Languages and Types</h3>
@@ -113,8 +115,9 @@ onMounted(() => {
 
       </ul></div>
     </div>
+    <div> <br></div>
     </div>
-    <div v-if="movelist" class="cando" style="margin: 0 10px;">
+    <!-- <div v-if="movelist" class="cando" style="margin: 0 10px;">
     <h2  style="padding-top:10px;">What can she do?</h2>
         <div><h3>Languages/Types</h3>
       <ul style="list-style-type:none"><br>
@@ -135,7 +138,7 @@ onMounted(() => {
         <li>Pulp Engine</li>
         <li>Playdate SDK</li>
         <li>And more!</li>
-
+        <br>
       </ul></div>
       <div ><h3>Programs/Systems</h3>
       <ul style="list-style-type:none"><br>
@@ -153,25 +156,20 @@ onMounted(() => {
         <li>Windows</li>
         <li>Linux</li>
         <li>Mac</li>
-
+        <br>
       </ul></div>
-    </div>
+    </div> -->
 
 
 
 
 
     </div>
+
   </div>
 </template>
 
 <style>
 
-#about .aboutsummary h2.summaryhead  {
-  padding-bottom: 0;
-  background-color: rgba(255, 255, 255, .1);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 
-}
 </style>

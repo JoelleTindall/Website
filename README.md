@@ -3,9 +3,9 @@
 ## LATEST UPDATES
 
 #### 11/25/2024
-    -contact form actually sends email now (has temp password)
-    -dark mode now stores a cookie
-    -'About' page reworked
+    - contact form actually sends email now (has temp password)
+    - dark mode now stores a cookie
+    - 'About' page reworked
     
 #### 11/22/2024
     - Working on smtp stuff (non functioning atm)

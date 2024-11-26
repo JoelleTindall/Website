@@ -15,7 +15,6 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@google-cloud/local-auth": "^2.1.0",
     "@prisma/client": "^5.22.0",
     "axios": "^1.7.7",
     "body-parser": "^1.20.3",

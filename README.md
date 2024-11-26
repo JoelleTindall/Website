@@ -2,6 +2,11 @@
 
 ## LATEST UPDATES
 
+#### 11/26/2024
+    - did some .env stuff
+    - about page layout is better
+    - worked on news section (not finished!)
+
 #### 11/25/2024
     - contact form actually sends email now (has temp password)
     - dark mode now stores a cookie

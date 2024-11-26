@@ -4,12 +4,14 @@
       <h2>What's New?</h2>
     </div>
     <div id="story" class="text">
-      <p class="date">{{ date }}</p>
-      <h2>{{subject}}</h2>
-      <div class="newstext">
-        <p> Rock, Paper, Scissors, Boom!, my new playdate game, launches on catalogue 11/26!<br><br> Pretty exciting stuff, right?</p>
+
+      <div class="titleholder"><p class="date">{{ date }}</p><h2>{{subject}}</h2></div>
+      <div class="textholder">
+        <p>Rock, Paper, Scissors, Boom!, my new playdate game, launches on catalogue 11/26!</p>
+          <p> Pretty exciting stuff, right?</p><br><br>
+       <p><a href="https://play.date/games/rock-paper-scissors-boom/">You can check it out here</a></p>
       </div>
-      <div class="newsphotos">
+      <div class="photoholder">
         <img src="../assets/images/games/rpsb/RPSB.png">
       </div>
     </div>
@@ -28,31 +30,61 @@ const subject=ref('RPSB Launches 11/26!')
 <style>
 #story{
   display:grid;
-  grid-template-columns: 2fr 1.5fr;
+  grid-auto-flow:dense;
+  grid-auto-columns: auto;
+   /* grid-template-columns: 1fr 1fr; */
+   /* overflow-inline: 1; */
+   /* grid-template-rows: min-content; */
 }
 
-#story h2 {
+#story .titleholder {
   grid-column: 1 /span 2;
+  grid-row:1;
   padding-top:0;
 }
+/*
+#story .dateholder {
+  grid-column: 1;
 
-#story .date {
-  grid-column: 1 /span 2;
   text-align: left;
-  padding-bottom: 0;
-  padding-top:0;
+  padding:0 10px;
   margin:0;
+} */
+#story .titleholder .date {
+
+  float: inline-start;
+  font-style: italic;
+  margin:0;
+  padding:0 10px;
+
 }
 
-#story .newstext {
-
+#story .textholder {
+  grid-column: 1 ;
   text-align: left;
+  padding: 20px;
+  background-color: rgb(128, 250, 209);
+  /* text-indent: 50px; */
+  min-width: 200px;
+
 
 }
 
-#story .newsphotos {
+#story .photoholder {
   margin:0 auto;
   padding:20px;
+ /* max-width: 50%; */
+grid-column: 2;
+
+}
+
+#story .photoholder img{
+margin: unset;
+ min-width: 350px;
+ max-width: 200px;
+ height:auto;
+ /* min-width: 390px; */
+
 }
 
 
